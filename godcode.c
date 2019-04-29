@@ -117,22 +117,22 @@ int main(int argc, char * argv[]) {
     // floodCache(arr4, xx);
 
 
-      clock_gettime(CLOCK_MONOTONIC, & t1);
+      
 
     for (j = 0; j < reps; j++) {
       // fprintf(fp, "arr[ %d ] ", (0 + (j * spacing) % 10000));
-
+      clock_gettime(CLOCK_MONOTONIC, & t1);
         sum += arr4[((j)*spacing )% buffSize];
 
       // fprintf(xx, "\n\n%d\n", sum);
-
-     
-      // fprintf(fp, "%d\n", d);
-    }
-            clock_gettime(CLOCK_MONOTONIC, & t2);
+      clock_gettime(CLOCK_MONOTONIC, & t2);
 
       d = diff_time( & t1, & t2);
       timeSum += (d - nullTime);
+     
+      // fprintf(fp, "%d\n", d);
+    }
+           
 
     arrTimes[k] = (timeSum / reps);
     fprintf(fp, ">>>>>>>>>>>>>>>>spacing of %d, avg run time = %d \n", spacing, timeSum / reps);
@@ -142,11 +142,12 @@ int main(int argc, char * argv[]) {
 //******************TEST SPACING NEXT
     free(arr4);
 
-    for (i = 1; i <= 64; i = i *2) {
-      
-     arr4 = (int*)malloc(kb*kb*kb);
-
+    for (i = 1; i <= 64; i = i *2) { // sets spacing between accesses to increasing powers of 2 
+                                    // note that these are integers 
+                                    //so when spacing is 8 for example, its taking jumps of 32 bytes
      
+     
+      arr4 = (int*)malloc(kb*kb*kb);//create fresh array for each spacing
 
       sum = 0;
       spacing = i;
@@ -154,25 +155,24 @@ int main(int argc, char * argv[]) {
 
       // printf("rand = %d", r);
 
-      clearModes();
+      clearModes(); // clears modes calculated on each iteration. modes dont seem to be usefull
 
       // randArray();
       // floodCache(arr2, xx);
       // floodCache(arr3, xx);
       // floodCache(arr4, xx);
 
-      for (j = 0; j <reps; j++) {
+      for (j = 0; j <reps; j++) { //basically traverses the array for reps steps of spacing increments
               
         clock_gettime(CLOCK_MONOTONIC, & t1);
         
         sum += arr4[((j)*spacing )% buffSize];
-        // sum -= arr4[((j)*spacing )% buffSize-spacing];
         
         clock_gettime(CLOCK_MONOTONIC, & t2);
         // nullTime = 0;
         d = diff_time( & t1, & t2);
         if(d-nullTime<100){
-          // printf("fukya");
+          // printf("fukya");  increments modes array index 
           modes[d-nullTime] ++;
         }
         timeSum += (d - nullTime);
@@ -183,7 +183,7 @@ int main(int argc, char * argv[]) {
       fprintf(fp, ">>>>>>>>>>>>>>>>spacing of %d, avg run time = %d \n", spacing, timeSum / reps);
       fprintf(fp,"%d\n",timeSum);
       
-      arrTimes[k] = (timeSum / reps);
+      arrTimes[k] = (timeSum / reps);// stores average time in an array for future calculation
       k++;
       timeSum = 0;
       
@@ -205,7 +205,8 @@ int main(int argc, char * argv[]) {
   printf("sum =  %d\n", sum);
   FILE * result;
   result = fopen("./results", "w");
-
+// ************** this bit compares runtime of spacing i and i+1 and finds largest jumps 
+      // ************saved as cliff variable.
   int gap ;
   int cliff;
   for (i = 0; i < 7; i++) {
@@ -216,6 +217,15 @@ int main(int argc, char * argv[]) {
      gap = arrTimes[i+1]-arrTimes[i];
   }
   }
+  /* typically the "cliff" is calculated at 3 or 4 wich corresponds to spacings
+   jumps of 8(32b) to 16(64b) and 16(64b) to 32(128b) respectively.
+  havent made it user friendly so cross reference with output file 
+    i expect the line size to be 64. We can interpret result as :
+          1)If jump is at spacing of 8(32b) to 16(64b) that the spacing is consistantly accessing bytes
+               that are on the end of lines  that arent prefetched
+          2) if jump is at spacing of 16(64b) to 32(128b) perhaps the indexes are accessed in such a way to 
+                encourage prefetching at spacing of 16(64b) and the significance of increased access speed isnt
+                  fully shown until spacing is further increased*/
   printf("cliff is %d  at %d\n",cliff,arrTimes[cliff]);
   
   fclose(xx);
