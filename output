@@ -1,16 +1,36 @@
->>>>>>>>>>>>>>>>spacing of 0, avg run time = 29 
->>>>>>>>>>>>>>>>spacing of 1, avg run time = 29 
-290914102
->>>>>>>>>>>>>>>>spacing of 2, avg run time = 29 
-298918307
->>>>>>>>>>>>>>>>spacing of 4, avg run time = 31 
-317910778
->>>>>>>>>>>>>>>>spacing of 8, avg run time = 32 
-329825813
->>>>>>>>>>>>>>>>spacing of 16, avg run time = 37 
-377841894
->>>>>>>>>>>>>>>>spacing of 32, avg run time = 44 
-446199011
->>>>>>>>>>>>>>>>spacing of 64, avg run time = 46 
-461562172
+>>>>>>>>>>>>>>>>spacing of 0, avg run time = 23 
+>>>>>>>>>>>>>>>>spacing of 16, avg run time = 32 
+32349207
+>>>>>>>>>>>>>>>>spacing of 32, avg run time = 43 
+43273332
+>>>>>>>>>>>>>>>>spacing of 64, avg run time = 63 
+63491137
+>>>>>>>>>>>>>>>>spacing of 128, avg run time = 107 
+107173831
+>>>>>>>>>>>>>>>>spacing of 256, avg run time = 187 
+187934761
+>>>>>>>>>>>>>>>>spacing of 512, avg run time = 199 
+199015410
+>>>>>>>>>>>>>>>>spacing of 1024, avg run time = 202 
+202106604
+>>>>>>>>>>>>>>>>spacing of 2048, avg run time = 117 
+117452566
+>>>>>>>>>>>>>>>>spacing of 4096, avg run time = 77 
+77190692
+>>>>>>>>>>>>>>>>spacing of 8192, avg run time = 56 
+56249980
+>>>>>>>>>>>>>>>>spacing of 16384, avg run time = 46 
+46809872
+>>>>>>>>>>>>>>>>spacing of 32768, avg run time = 70 
+70857785
+>>>>>>>>>>>>>>>>spacing of 65536, avg run time = 66 
+66471787
+>>>>>>>>>>>>>>>>spacing of 131072, avg run time = 57 
+57347923
+>>>>>>>>>>>>>>>>spacing of 262144, avg run time = 54 
+54396357
+>>>>>>>>>>>>>>>>spacing of 524288, avg run time = 53 
+53607998
+>>>>>>>>>>>>>>>>spacing of 1048576, avg run time = 40 
+40820867
 *****

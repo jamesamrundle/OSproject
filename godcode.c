@@ -91,6 +91,7 @@ int main(int argc, char * argv[]) {
   arr4 = (int*)malloc(kb*kb*kb);
   struct timespec t1, t2;
   int nullTime;
+   int index;
 
   for (i = 0; i < 1000000; i++) {
     clock_gettime(CLOCK_MONOTONIC, & t1);
@@ -110,7 +111,7 @@ int main(int argc, char * argv[]) {
 
   for (p = 0; p < 1; p++) {
     int spacing = 0;
-    int reps = 10000000;
+    int reps = 1000000;
     // randArray();
     // floodCache(arr2, xx);
     // floodCache(arr3, xx);
@@ -118,15 +119,15 @@ int main(int argc, char * argv[]) {
 
 
       
-
+    index = 0;
     for (j = 0; j < reps; j++) {
       // fprintf(fp, "arr[ %d ] ", (0 + (j * spacing) % 10000));
       clock_gettime(CLOCK_MONOTONIC, & t1);
-        sum += arr4[((j)*spacing )% buffSize];
-
+        sum += arr4[index];  //((j)*spacing )% buffSize
+        
       // fprintf(xx, "\n\n%d\n", sum);
       clock_gettime(CLOCK_MONOTONIC, & t2);
-
+      index = (index + spacing)%buffSize;
       d = diff_time( & t1, & t2);
       timeSum += (d - nullTime);
      
@@ -141,8 +142,8 @@ int main(int argc, char * argv[]) {
 
 //******************TEST SPACING NEXT
     free(arr4);
-
-    for (i = 1; i <= 64; i = i *2) { // sets spacing between accesses to increasing powers of 2 
+   index = 0;
+    for (i = 16; i <= 1024*kb; i = i *2) { // sets spacing between accesses to increasing powers of 2 
                                     // note that these are integers 
                                     //so when spacing is 8 for example, its taking jumps of 32 bytes
      
@@ -161,15 +162,16 @@ int main(int argc, char * argv[]) {
       // floodCache(arr2, xx);
       // floodCache(arr3, xx);
       // floodCache(arr4, xx);
-
+      index = 0;
       for (j = 0; j <reps; j++) { //basically traverses the array for reps steps of spacing increments
               
         clock_gettime(CLOCK_MONOTONIC, & t1);
         
-        sum += arr4[((j)*spacing )% buffSize];
+        sum += arr4[index];  //((j)*spacing )% buffSize
         
         clock_gettime(CLOCK_MONOTONIC, & t2);
         // nullTime = 0;
+         index = (index + spacing)%buffSize;
         d = diff_time( & t1, & t2);
         if(d-nullTime<100){
           // printf("fukya");  increments modes array index 
@@ -209,7 +211,7 @@ int main(int argc, char * argv[]) {
       // ************saved as cliff variable.
   int gap ;
   int cliff;
-  for (i = 0; i < 7; i++) {
+  for (i = 0; i < 8; i++) {
     // fprintf(result, "spacing of %d = %d \n", i, arrTimes[i]);
     printf("spacing of %d = %d \n", i, arrTimes[i]);
   if(arrTimes[i+1] > 0 && arrTimes[i+1]-arrTimes[i] > gap){
